@@ -1,11 +1,21 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,16 +58,45 @@ const Navbar = () => {
             <Link to="/contact" className="text-gray-700 hover:text-dilse-600 animate-hover font-medium">
               Contact
             </Link>
-            <div className="flex space-x-2">
-              <Link to="/login">
-                <Button variant="outline" className="border-dilse-500 text-dilse-600 hover:bg-dilse-50">
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button className="bg-dilse-500 hover:bg-dilse-600">Sign Up</Button>
-              </Link>
-            </div>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="border-dilse-500 text-dilse-600 hover:bg-dilse-50">
+                    <User className="h-4 w-4 mr-2" />
+                    <span>Account</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="px-2 py-1.5 text-sm font-medium text-gray-500">
+                    {user.email}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                    Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut} className="text-red-500 focus:text-red-500">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex space-x-2">
+                <Link to="/login">
+                  <Button variant="outline" className="border-dilse-500 text-dilse-600 hover:bg-dilse-50">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button className="bg-dilse-500 hover:bg-dilse-600">Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -115,16 +154,46 @@ const Navbar = () => {
               >
                 Contact
               </Link>
-              <div className="flex space-x-2 px-4">
-                <Link to="/login" className="flex-1" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="outline" className="w-full border-dilse-500 text-dilse-600 hover:bg-dilse-50">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register" className="flex-1" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full bg-dilse-500 hover:bg-dilse-600">Sign Up</Button>
-                </Link>
-              </div>
+              
+              {user ? (
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="text-gray-700 hover:text-dilse-600 px-4 py-2 rounded-md hover:bg-dilse-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="text-gray-700 hover:text-dilse-600 px-4 py-2 rounded-md hover:bg-dilse-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-red-500 hover:text-red-600 flex items-center px-4 py-2 rounded-md hover:bg-red-50 text-left"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <div className="flex space-x-2 px-4">
+                  <Link to="/login" className="flex-1" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" className="w-full border-dilse-500 text-dilse-600 hover:bg-dilse-50">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/register" className="flex-1" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-dilse-500 hover:bg-dilse-600">Sign Up</Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

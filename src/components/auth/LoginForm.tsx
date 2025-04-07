@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -27,8 +27,7 @@ const loginFormSchema = z.object({
 type LoginFormValues = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signIn, isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -41,23 +40,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Login form submitted:", data);
-      
-      // Show success message
-      toast({
-        title: "Login Successful!",
-        description: "Welcome back to DilSeDonate.",
-      });
-      
-      setIsSubmitting(false);
-      
-      // Redirect to dashboard or home page in a real app
-      window.location.href = "/";
-    }, 1500);
+    await signIn(data.email, data.password);
   };
 
   return (
@@ -142,9 +125,9 @@ const LoginForm = () => {
           <Button
             type="submit"
             className="w-full bg-dilse-500 hover:bg-dilse-600 py-6"
-            disabled={isSubmitting}
+            disabled={isLoading}
           >
-            {isSubmitting ? "Logging In..." : "Log In"}
+            {isLoading ? "Logging In..." : "Log In"}
           </Button>
           
           <div className="text-center mt-4">

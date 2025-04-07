@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -42,8 +41,7 @@ const registerFormSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { signUp, isLoading } = useAuth();
   const [isSuccess, setIsSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -62,21 +60,12 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (data: RegisterFormValues) => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Registration form submitted:", data);
-      
-      // Show success message
-      toast({
-        title: "Registration Successful!",
-        description: "Your account has been created. You can now log in.",
-      });
-      
-      setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 1500);
+    await signUp(data.email, data.password, {
+      name: data.name,
+      phone: data.phone,
+      userType: data.userType,
+    });
+    setIsSuccess(true);
   };
 
   if (isSuccess) {
@@ -89,7 +78,7 @@ const RegisterForm = () => {
           Registration Successful!
         </h3>
         <p className="text-gray-600 mb-6">
-          Your account has been created successfully. You can now log in to your account.
+          Your account has been created successfully. Please check your email to verify your account.
         </p>
         <div className="space-y-4">
           <Link to="/login">
@@ -288,9 +277,9 @@ const RegisterForm = () => {
           <Button
             type="submit"
             className="w-full bg-dilse-500 hover:bg-dilse-600 py-6"
-            disabled={isSubmitting}
+            disabled={isLoading}
           >
-            {isSubmitting ? "Creating Account..." : "Create Account"}
+            {isLoading ? "Creating Account..." : "Create Account"}
           </Button>
           
           <div className="text-center mt-4">
