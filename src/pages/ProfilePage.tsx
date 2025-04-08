@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,26 +7,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
+type Profile = {
+  first_name: string | null;
+  last_name: string | null;
+  phone: string | null;
+};
 
 const ProfilePage = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
+  const [profile, setProfile] = useState<Profile>({
+    first_name: "",
+    last_name: "",
     phone: ""
   });
 
   // Fetch profile data when component mounts
-  useState(() => {
+  useEffect(() => {
     const fetchProfile = async () => {
       if (!user) return;
       
       try {
         setIsLoading(true);
         const { data, error } = await supabase
-          .from("profiles")
+          .from('profiles')
           .select("first_name, last_name, phone")
           .eq("id", user.id)
           .single();
@@ -35,8 +42,8 @@ const ProfilePage = () => {
         
         if (data) {
           setProfile({
-            firstName: data.first_name || "",
-            lastName: data.last_name || "",
+            first_name: data.first_name || "",
+            last_name: data.last_name || "",
             phone: data.phone || ""
           });
         }
@@ -68,10 +75,10 @@ const ProfilePage = () => {
       setIsLoading(true);
       
       const { error } = await supabase
-        .from("profiles")
+        .from('profiles')
         .update({
-          first_name: profile.firstName,
-          last_name: profile.lastName,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
           phone: profile.phone
         })
         .eq("id", user.id);
@@ -107,8 +114,8 @@ const ProfilePage = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">First Name</label>
                     <Input 
-                      name="firstName"
-                      value={profile.firstName}
+                      name="first_name"
+                      value={profile.first_name || ""}
                       onChange={handleChange}
                       placeholder="First Name"
                     />
@@ -117,8 +124,8 @@ const ProfilePage = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Last Name</label>
                     <Input 
-                      name="lastName"
-                      value={profile.lastName}
+                      name="last_name"
+                      value={profile.last_name || ""}
                       onChange={handleChange}
                       placeholder="Last Name"
                     />
@@ -140,7 +147,7 @@ const ProfilePage = () => {
                   <label className="text-sm font-medium">Phone Number</label>
                   <Input 
                     name="phone"
-                    value={profile.phone}
+                    value={profile.phone || ""}
                     onChange={handleChange}
                     placeholder="Phone Number"
                   />
