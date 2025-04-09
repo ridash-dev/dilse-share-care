@@ -29,28 +29,28 @@ const AboutPage = () => {
 
   const team = [
     {
-      name: "Priya Sharma",
-      role: "Founder & CEO",
+      name: "Riya Deshmukh",
+      role: "Full Stack Developer",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-      bio: "Former social worker with 10+ years experience in nonprofit sector."
+      bio: "Build The Core Components Of The Program"
     },
     {
-      name: "Rahul Verma",
-      role: "Chief Operating Officer",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200",
-      bio: "Tech entrepreneur with a passion for solving social problems."
-    },
-    {
-      name: "Anita Desai",
-      role: "Head of Partnerships",
+      name: "Ashwini Dhumal",
+      role: "Planning Head",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-      bio: "15+ years in nonprofit management and partnership development."
+      bio: "Assigned And Executed Many Tasks"
     },
     {
-      name: "Vikram Singh",
+      name: "Vaibhavi Dhepe",
+      role: "Research",
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+      bio: "Researched About The Working Of NGO's And Non Profits"
+    },
+    {
+      name: "Vibha Gajare",
       role: "Technical Director",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
-      bio: "Software engineer with expertise in building secure platforms."
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
+      bio: "Chose And Helped With The Technical Aspects Of the Project"
     }
   ];
 
@@ -89,10 +89,10 @@ const AboutPage = () => {
                   DilSeDonate was born from a simple observation: there was a gap between people who wanted to donate items and organizations that needed them. Middlemen often complicated the process, reducing the impact of donations.
                 </p>
                 <p className="text-lg text-gray-600">
-                  Founded in 2023, we set out to create a platform that would connect donors directly with organizations, making the donation process more efficient, transparent, and impactful.
+                  Founded in 2025, we set out to create a platform that would connect donors directly with organizations, making the donation process more efficient, transparent, and impactful.
                 </p>
                 <p className="text-lg text-gray-600">
-                  Today, we're proud to have facilitated thousands of direct donations, helping items find new homes where they're truly needed and valued.
+                  Today, we're proud to have facilitated many of direct donations, helping items find new homes where they're truly needed and valued.
                 </p>
               </div>
             </div>

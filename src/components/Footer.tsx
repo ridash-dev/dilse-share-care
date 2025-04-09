@@ -85,7 +85,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-dilse-500 mt-0.5" />
-                <span className="text-gray-600">123 Donation Street, Charity Town, India</span>
+                <span className="text-gray-600">JSPM's BSIOTR Wagholi India</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-dilse-500" />

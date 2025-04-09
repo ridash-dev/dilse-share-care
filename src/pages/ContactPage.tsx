@@ -97,9 +97,9 @@ const ContactPage = () => {
                     <div>
                       <h3 className="text-lg font-medium text-gray-900 mb-1">Our Location</h3>
                       <p className="text-gray-600">
-                        123 Donation Street<br />
-                        Charity Town, Mumbai<br />
-                        Maharashtra, India 400001
+                        JSPM's BSIOTR<br />
+                        Wagholi,Pune<br />
+                        Maharashtra, India 412207
                       </p>
                     </div>
                   </div>
@@ -267,7 +267,7 @@ const ContactPage = () => {
           <div className="mt-16 max-w-6xl mx-auto">
             <div className="rounded-xl overflow-hidden shadow-lg h-[400px]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.14571039863!2d72.74106856323392!3d19.08251936429915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sus!4v1648642310007!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30256.035442729462!2d73.9793678!3d18.573839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c3819fdef877%3A0xd4193e985f354be0!2sWagholi%2C%20Pune%2C%20Maharashtra%20412207!5e0!3m2!1sen!2sin!4v1744215747585!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
