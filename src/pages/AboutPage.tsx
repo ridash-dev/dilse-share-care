@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Heart, Users, Target, Shield } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AboutPage = () => {
   const values = [
@@ -31,25 +32,21 @@ const AboutPage = () => {
     {
       name: "Riya Deshmukh",
       role: "Full Stack Developer",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
       bio: "Build The Core Components Of The Program"
     },
     {
       name: "Ashwini Dhumal",
       role: "Planning Head",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
       bio: "Assigned And Executed Many Tasks"
     },
     {
       name: "Vaibhavi Dhepe",
       role: "Research",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
       bio: "Researched About The Working Of NGO's And Non Profits"
     },
     {
       name: "Vibha Gajare",
       role: "Technical Director",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
       bio: "Chose And Helped With The Technical Aspects Of the Project"
     }
   ];
@@ -146,25 +143,20 @@ const AboutPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {team.map((member, index) => (
-                <div 
+                <Card 
                   key={index} 
-                  className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 animate-hover"
+                  className="hover:shadow-lg transition-all duration-300 animate-hover"
                 >
-                  <div className="h-48 overflow-hidden">
-                    <img 
-                      src={member.image} 
-                      alt={member.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                  <CardHeader>
+                    <CardTitle className="text-xl font-semibold text-gray-900">
                       {member.name}
-                    </h3>
-                    <p className="text-dilse-600 mb-3">{member.role}</p>
+                    </CardTitle>
+                    <p className="text-dilse-600">{member.role}</p>
+                  </CardHeader>
+                  <CardContent>
                     <p className="text-gray-600">{member.bio}</p>
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
