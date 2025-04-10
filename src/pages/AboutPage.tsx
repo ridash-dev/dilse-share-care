@@ -38,7 +38,7 @@ const AboutPage = () => {
     {
       name: "Ashwini Dhumal",
       role: "Planning Head",
-      bio: "Assigned And Executed Many Tasks"
+      bio: "Assigned And Executed Tasks"
     },
     {
       name: "Vaibhavi Dhepe",
@@ -48,7 +48,7 @@ const AboutPage = () => {
     {
       name: "Vibha Gajare",
       role: "Technical Director",
-      bio: "Chose And Helped With The Technical Aspects Of the Project"
+      bio: "Helped growing awareness and connecting generous hearts with meaningful causes."
     },
     {
       name: "Shrey Dukre",
