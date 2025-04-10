@@ -28,6 +28,7 @@ const AboutPage = () => {
     }
   ];
 
+  // Updated team members with your latest changes
   const team = [
     {
       name: "Riya Deshmukh",
