@@ -48,6 +48,11 @@ const AboutPage = () => {
       name: "Vibha Gajare",
       role: "Technical Director",
       bio: "Chose And Helped With The Technical Aspects Of the Project"
+    },
+    {
+      name: "Shrey Dukre",
+      role: "Content Writer",
+      bio: "Created compelling content that drives engagement and highlights our mission"
     }
   ];
 
