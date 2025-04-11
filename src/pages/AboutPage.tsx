@@ -47,7 +47,7 @@ const AboutPage = () => {
     },
     {
       name: "Vibha Gajare",
-      role: "Technical Director",
+      role: "Marketing Specialist",
       bio: "Helped growing awareness and connecting generous hearts with meaningful causes."
     },
     {
