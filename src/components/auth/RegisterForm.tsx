@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +17,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Check } from "lucide-react";
+import { Eye, EyeOff, Check, IdCard } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const registerFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -30,6 +38,8 @@ const registerFormSchema = z.object({
     .regex(/[0-9]/, { message: "Password must contain at least one number" }),
   confirmPassword: z.string(),
   userType: z.enum(["donor", "organization"]),
+  idType: z.enum(["aadhar", "pan", "driving"]),
+  idNumber: z.string().min(3, { message: "Please enter a valid ID number" }),
   termsAccepted: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
   }),
@@ -55,6 +65,8 @@ const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       userType: "donor",
+      idType: "aadhar",
+      idNumber: "",
       termsAccepted: false,
     },
   });
@@ -64,6 +76,8 @@ const RegisterForm = () => {
       name: data.name,
       phone: data.phone,
       userType: data.userType,
+      idType: data.idType,
+      idNumber: data.idNumber,
     });
     setIsSuccess(true);
   };
@@ -235,6 +249,54 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
+          
+          <div className="space-y-6 border p-4 rounded-md bg-gray-50">
+            <div className="flex items-center gap-2">
+              <IdCard className="h-5 w-5 text-dilse-600" />
+              <h3 className="text-sm font-semibold text-gray-700">Government ID Verification</h3>
+            </div>
+            <p className="text-xs text-gray-500">ID verification helps us ensure all donors are genuine and prevents fake accounts</p>
+            
+            <FormField
+              control={form.control}
+              name="idType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID Type</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select ID type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="aadhar">Aadhar Card</SelectItem>
+                      <SelectItem value="pan">PAN Card</SelectItem>
+                      <SelectItem value="driving">Driving License</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="idNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your ID number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           
           <FormField
             control={form.control}
