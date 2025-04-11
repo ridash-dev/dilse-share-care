@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,19 +29,15 @@ const loginFormSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
   rememberMe: z.boolean().optional(),
   idType: z.enum(["aadhar", "pan", "driving", "none"]).optional(),
-  idNumber: z.string().optional()
-    .refine(
-      (val, ctx) => {
-        // If an ID type is selected, ID number is required
-        if (ctx.data.idType && ctx.data.idType !== "none" && (!val || val.length < 3)) {
-          return false;
-        }
-        return true;
-      },
-      {
-        message: "ID number is required when ID type is selected",
-      }
-    ),
+  idNumber: z.string().optional(),
+}).refine((data) => {
+  if (data.idType && data.idType !== "none" && (!data.idNumber || data.idNumber.length < 3)) {
+    return false;
+  }
+  return true;
+}, {
+  message: "ID number is required when ID type is selected",
+  path: ["idNumber"],
 });
 
 type LoginFormValues = z.infer<typeof loginFormSchema>;
