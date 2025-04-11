@@ -31,26 +31,25 @@ const AboutPage = () => {
     {
       name: "Riya Deshmukh",
       role: "Full Stack Developer",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200",
-      bio: "Build The Core Components Of The Program"
+      bio: "Built The Core Components Of The Program"
     },
     {
       name: "Ashwini Dhumal",
       role: "Planning Head",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-      bio: "Assigned And Executed Many Tasks"
+      bio: "Assigned And Executed Tasks"
     },
     {
       name: "Vaibhavi Dhepe",
-      role: "Research",
+      role: "Research head",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-      bio: "Researched About The Working Of NGO's And Non Profits"
+      bio: "Researched About The Working Of NGO's, Orphanages and Old Age Homes."
     },
     {
       name: "Vibha Gajare",
-      role: "Technical Director",
+      role: "Marketing Specialist",
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-      bio: "Chose And Helped With The Technical Aspects Of the Project"
+      bio: "Helped growing awareness and connecting generous hearts with meaningful causes."
     }
   ];
 
