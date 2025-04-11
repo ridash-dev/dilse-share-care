@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -299,7 +298,7 @@ const OrganizationsPage = () => {
             <p className="text-gray-600 mb-4">
               Don't see your organization here?
             </p>
-            <Link to="/register-organization">
+            <Link to="/register">
               <Button className="bg-dilse-500 hover:bg-dilse-600">
                 Register Your Organization
               </Button>
