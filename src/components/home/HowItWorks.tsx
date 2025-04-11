@@ -1,5 +1,7 @@
 
 import { Heart, Truck, FileCheck, Award } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const HowItWorks = () => {
   const steps = [
@@ -71,12 +73,13 @@ const HowItWorks = () => {
             Whether you're looking to donate items or you're an organization in need, DilSeDonate creates a direct bridge between generosity and impact.
           </p>
           <div className="flex justify-center">
-            <a 
-              href="/register" 
-              className="px-8 py-3 bg-dilse-500 text-white rounded-lg hover:bg-dilse-600 transition-colors font-medium text-lg shadow-md hover:shadow-xl animate-hover hover-lift"
-            >
-              Get Started
-            </a>
+            <Link to="/register">
+              <Button
+                className="px-8 py-3 bg-dilse-500 text-white rounded-lg hover:bg-dilse-600 transition-colors font-medium text-lg shadow-md hover:shadow-xl animate-hover hover-lift"
+              >
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
