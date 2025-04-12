@@ -16,15 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Check, IdCard } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import { Eye, EyeOff, Check } from "lucide-react";
 
 const registerFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -38,45 +30,21 @@ const registerFormSchema = z.object({
     .regex(/[0-9]/, { message: "Password must contain at least one number" }),
   confirmPassword: z.string(),
   userType: z.enum(["donor", "organization"]),
-  idType: z.enum(["aadhar", "pan", "driving"]),
-  idNumber: z.string().min(3, { message: "Please enter a valid ID number" }),
   termsAccepted: z.boolean().refine((val) => val === true, {
     message: "You must accept the terms and conditions",
   }),
-  organizationName: z.string().optional(),
-  organizationEmail: z.string().email().optional(),
-  organizationPhone: z.string().min(10).optional(),
-  organizationAddress: z.string().optional(),
-  registrationCertificate: z.any().optional(),
-  taxExemptionCertificate: z.any().optional(),
-  addressProof: z.any().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords do not match",
   path: ["confirmPassword"],
-}).refine((data) => {
-  if (data.userType === "organization") {
-    return data.organizationName && data.organizationEmail && data.organizationPhone && 
-           data.organizationAddress;
-  }
-  return true;
-}, {
-  message: "All organization fields are required",
-  path: ["organizationName"],
 });
 
 type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
   const { signUp, isLoading } = useAuth();
-  const { toast } = useToast();
   const [isSuccess, setIsSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<{
-    registrationCertificate?: File;
-    taxExemptionCertificate?: File;
-    addressProof?: File;
-  }>({});
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
@@ -87,52 +55,17 @@ const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       userType: "donor",
-      idType: "aadhar",
-      idNumber: "",
       termsAccepted: false,
-      organizationName: "",
-      organizationEmail: "",
-      organizationPhone: "",
-      organizationAddress: "",
     },
   });
 
-  const handleFileChange = (field: string, file: File) => {
-    setSelectedFiles(prev => ({ ...prev, [field]: file }));
-    form.setValue(field as any, file);
-  };
-
   const onSubmit = async (data: RegisterFormValues) => {
-    try {
-      console.log("Form submitted with data:", data);
-      
-      await signUp(data.email, data.password, {
-        name: data.name,
-        phone: data.phone,
-        userType: data.userType,
-        idType: data.idType,
-        idNumber: data.idNumber,
-        organizationName: data.organizationName,
-        organizationEmail: data.organizationEmail,
-        organizationPhone: data.organizationPhone,
-        organizationAddress: data.organizationAddress,
-        // Files are handled separately
-      });
-      
-      toast({
-        title: "Registration Successful",
-        description: "Your account has been created successfully!",
-      });
-      
-      setIsSuccess(true);
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      toast({
-        variant: "destructive",
-        title: "Registration failed",
-        description: error.message || "Something went wrong. Please try again.",
-      });
-    }
+    await signUp(data.email, data.password, {
+      name: data.name,
+      phone: data.phone,
+      userType: data.userType,
+    });
+    setIsSuccess(true);
   };
 
   if (isSuccess) {
@@ -303,54 +236,6 @@ const RegisterForm = () => {
             )}
           />
           
-          <div className="space-y-6 border p-4 rounded-md bg-gray-50">
-            <div className="flex items-center gap-2">
-              <IdCard className="h-5 w-5 text-dilse-600" />
-              <h3 className="text-sm font-semibold text-gray-700">Government ID Verification</h3>
-            </div>
-            <p className="text-xs text-gray-500">ID verification helps us ensure all donors are genuine and prevents fake accounts</p>
-            
-            <FormField
-              control={form.control}
-              name="idType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>ID Type</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select ID type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="aadhar">Aadhar Card</SelectItem>
-                      <SelectItem value="pan">PAN Card</SelectItem>
-                      <SelectItem value="driving">Driving License</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="idNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>ID Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your ID number" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          
           <FormField
             control={form.control}
             name="termsAccepted"
@@ -388,131 +273,6 @@ const RegisterForm = () => {
               </FormItem>
             )}
           />
-          
-          {form.watch("userType") === "organization" && (
-            <>
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Organization Details</h3>
-                
-                <FormField
-                  control={form.control}
-                  name="organizationName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Organization Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter organization name" {...field} className="form-input-focus" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="organizationEmail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Organization Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="org@example.com" {...field} className="form-input-focus" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="organizationPhone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Organization Phone</FormLabel>
-                      <FormControl>
-                        <Input placeholder="+91 9876543210" {...field} className="form-input-focus" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="organizationAddress"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Organization Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter full address" {...field} className="form-input-focus" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="space-y-4 mt-6">
-                  <h4 className="text-sm font-semibold text-gray-900">Required Documents</h4>
-                  
-                  <FormField
-                    control={form.control}
-                    name="registrationCertificate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Registration Certificate</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="file"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={(e) => e.target.files?.[0] && handleFileChange("registrationCertificate", e.target.files[0])}
-                            className="form-input-focus"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="taxExemptionCertificate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>12A/80G Certificate</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="file"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={(e) => e.target.files?.[0] && handleFileChange("taxExemptionCertificate", e.target.files[0])}
-                            className="form-input-focus"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="addressProof"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Address Proof</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="file"
-                            accept=".pdf,.jpg,.jpeg,.png"
-                            onChange={(e) => e.target.files?.[0] && handleFileChange("addressProof", e.target.files[0])}
-                            className="form-input-focus"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-            </>
-          )}
           
           <Button
             type="submit"
