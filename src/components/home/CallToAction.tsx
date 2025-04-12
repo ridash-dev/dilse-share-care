@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
@@ -33,7 +34,7 @@ const CallToAction = () => {
               <p className="text-gray-600 mb-6">
                 Register your organization to receive donations that match your specific needs.
               </p>
-              <Link to="/register">
+              <Link to="/register-organization">
                 <Button size="lg" variant="outline" className="w-full border-dilse-500 text-dilse-600 hover:bg-dilse-50 animate-hover hover-lift">
                   Register Organization
                   <ArrowRight className="ml-2 h-4 w-4" />

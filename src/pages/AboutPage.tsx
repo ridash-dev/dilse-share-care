@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Heart, Users, Target, Shield } from "lucide-react";
@@ -32,24 +33,21 @@ const AboutPage = () => {
     {
       name: "Riya Deshmukh",
       role: "Full Stack Developer",
-      bio: "Built The Core Components Of The Program"
+      bio: "Build The Core Components Of The Program"
     },
     {
       name: "Ashwini Dhumal",
       role: "Planning Head",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
       bio: "Assigned And Executed Tasks"
     },
     {
       name: "Vaibhavi Dhepe",
-      role: "Research head",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
-      bio: "Researched About The Working Of NGO's, Orphanages and Old Age Homes."
+      role: "Research",
+      bio: "Researched About The Working Of NGO's And Non Profits"
     },
     {
       name: "Vibha Gajare",
       role: "Marketing Specialist",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200",
       bio: "Helped growing awareness and connecting generous hearts with meaningful causes."
     },
     {
@@ -166,6 +164,26 @@ const AboutPage = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Impact Stats */}
+        <section className="py-16 md:py-20 bg-dilse-600 text-white">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div className="p-6">
+                <h3 className="text-4xl md:text-5xl font-bold mb-2">10,000+</h3>
+                <p className="text-xl">Donations Made</p>
+              </div>
+              <div className="p-6">
+                <h3 className="text-4xl md:text-5xl font-bold mb-2">500+</h3>
+                <p className="text-xl">Organizations Helped</p>
+              </div>
+              <div className="p-6">
+                <h3 className="text-4xl md:text-5xl font-bold mb-2">50,000+</h3>
+                <p className="text-xl">Lives Impacted</p>
+              </div>
             </div>
           </div>
         </section>

@@ -74,12 +74,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, userData: any) => {
-    console.log("SignUp function called with:", { email, userData });
     try {
       setIsLoading(true);
-      
-      // We need to ensure we're passing the correct data to Supabase
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -87,40 +84,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             first_name: userData.name?.split(' ')[0] || '',
             last_name: userData.name?.split(' ').slice(1).join(' ') || '',
             user_type: userData.userType,
-            id_type: userData.idType,
-            id_number: userData.idNumber,
-            phone: userData.phone,
-            name: userData.name,
-            organization_name: userData.organizationName,
-            organization_email: userData.organizationEmail,
-            organization_phone: userData.organizationPhone,
-            organization_address: userData.organizationAddress
+            name: userData.name // For organization name if user_type is organization
           },
         },
       });
 
-      if (error) {
-        console.error("Supabase signup error:", error);
-        throw error;
-      }
-      
-      console.log("Signup successful, response:", data);
+      if (error) throw error;
       
       toast({
         title: "Registration Successful",
         description: "Please check your email to verify your account.",
       });
-
-      if (userData.userType === 'organization') {
-        // Additional logic for organization-specific uploads or database entries can go here
-        console.log("Organization registration completed");
-      }
       
-      // We'll let the component handle the redirect after showing success message
-      return data;
+      navigate("/login");
     } catch (error: any) {
-      console.error("Registration error:", error);
-      throw error; // Re-throw so the component can handle it
+      toast({
+        variant: "destructive",
+        title: "Registration failed",
+        description: error.message || "Something went wrong. Please try again.",
+      });
     } finally {
       setIsLoading(false);
     }
