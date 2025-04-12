@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
+// Define a conditional schema based on user type
 const registerFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -308,7 +310,7 @@ const RegisterForm = () => {
               <IdCard className="h-5 w-5 text-dilse-600" />
               <h3 className="text-sm font-semibold text-gray-700">Government ID Verification</h3>
             </div>
-            <p className="text-xs text-gray-500">ID verification helps us ensure all donors are genuine and prevents fake accounts</p>
+            <p className="text-xs text-gray-500">ID verification helps us ensure all users are genuine and prevents fake accounts</p>
             
             <FormField
               control={form.control}
