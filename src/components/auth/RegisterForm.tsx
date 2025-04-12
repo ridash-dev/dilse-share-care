@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -97,6 +96,7 @@ const RegisterForm = () => {
       organizationPhone: "",
       organizationAddress: "",
     },
+    mode: "onChange",
   });
 
   const handleFileChange = (field: string, file: File) => {
@@ -118,7 +118,6 @@ const RegisterForm = () => {
         organizationEmail: data.organizationEmail,
         organizationPhone: data.organizationPhone,
         organizationAddress: data.organizationAddress,
-        // Files are handled separately
       });
       
       toast({

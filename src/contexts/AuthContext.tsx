@@ -77,7 +77,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log("SignUp function called with:", { email, userData });
     try {
       setIsLoading(true);
-      const { error } = await supabase.auth.signUp({
+      
+      // We need to ensure we're passing the correct data to Supabase
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -102,6 +104,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw error;
       }
       
+      console.log("Signup successful, response:", data);
+      
       toast({
         title: "Registration Successful",
         description: "Please check your email to verify your account.",
@@ -112,15 +116,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log("Organization registration completed");
       }
       
-      // Redirect to login page after successful registration
-      navigate("/login");
+      // We'll let the component handle the redirect after showing success message
+      return data;
     } catch (error: any) {
       console.error("Registration error:", error);
-      toast({
-        variant: "destructive",
-        title: "Registration failed",
-        description: error.message || "Something went wrong. Please try again.",
-      });
+      throw error; // Re-throw so the component can handle it
     } finally {
       setIsLoading(false);
     }
