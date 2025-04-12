@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 const registerFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -55,8 +56,7 @@ const registerFormSchema = z.object({
 }).refine((data) => {
   if (data.userType === "organization") {
     return data.organizationName && data.organizationEmail && data.organizationPhone && 
-           data.organizationAddress && data.registrationCertificate && 
-           data.taxExemptionCertificate && data.addressProof;
+           data.organizationAddress;
   }
   return true;
 }, {
@@ -68,6 +68,7 @@ type RegisterFormValues = z.infer<typeof registerFormSchema>;
 
 const RegisterForm = () => {
   const { signUp, isLoading } = useAuth();
+  const { toast } = useToast();
   const [isSuccess, setIsSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -102,21 +103,36 @@ const RegisterForm = () => {
   };
 
   const onSubmit = async (data: RegisterFormValues) => {
-    await signUp(data.email, data.password, {
-      name: data.name,
-      phone: data.phone,
-      userType: data.userType,
-      idType: data.idType,
-      idNumber: data.idNumber,
-      organizationName: data.organizationName,
-      organizationEmail: data.organizationEmail,
-      organizationPhone: data.organizationPhone,
-      organizationAddress: data.organizationAddress,
-      registrationCertificate: data.registrationCertificate,
-      taxExemptionCertificate: data.taxExemptionCertificate,
-      addressProof: data.addressProof,
-    });
-    setIsSuccess(true);
+    try {
+      console.log("Form submitted with data:", data);
+      
+      await signUp(data.email, data.password, {
+        name: data.name,
+        phone: data.phone,
+        userType: data.userType,
+        idType: data.idType,
+        idNumber: data.idNumber,
+        organizationName: data.organizationName,
+        organizationEmail: data.organizationEmail,
+        organizationPhone: data.organizationPhone,
+        organizationAddress: data.organizationAddress,
+        // Files are handled separately
+      });
+      
+      toast({
+        title: "Registration Successful",
+        description: "Your account has been created successfully!",
+      });
+      
+      setIsSuccess(true);
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      toast({
+        variant: "destructive",
+        title: "Registration failed",
+        description: error.message || "Something went wrong. Please try again.",
+      });
+    }
   };
 
   if (isSuccess) {
