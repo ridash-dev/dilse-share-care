@@ -74,6 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, userData: any) => {
+    console.log("SignUp function called with:", { email, userData });
     try {
       setIsLoading(true);
       const { error } = await supabase.auth.signUp({
@@ -84,20 +85,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             first_name: userData.name?.split(' ')[0] || '',
             last_name: userData.name?.split(' ').slice(1).join(' ') || '',
             user_type: userData.userType,
-            name: userData.name // For organization name if user_type is organization
+            id_type: userData.idType,
+            id_number: userData.idNumber,
+            phone: userData.phone,
+            name: userData.name,
+            organization_name: userData.organizationName,
+            organization_email: userData.organizationEmail,
+            organization_phone: userData.organizationPhone,
+            organization_address: userData.organizationAddress
           },
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase signup error:", error);
+        throw error;
+      }
       
       toast({
         title: "Registration Successful",
         description: "Please check your email to verify your account.",
       });
+
+      if (userData.userType === 'organization') {
+        // Additional logic for organization-specific uploads or database entries can go here
+        console.log("Organization registration completed");
+      }
       
+      // Redirect to login page after successful registration
       navigate("/login");
     } catch (error: any) {
+      console.error("Registration error:", error);
       toast({
         variant: "destructive",
         title: "Registration failed",
